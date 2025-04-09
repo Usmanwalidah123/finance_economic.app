@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 
 st.title("Stock Index Classifier")
@@ -30,13 +28,9 @@ def load_and_train():
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(X_train, y_train)
 
-    # Predict and confusion matrix
-    y_pred = model.predict(X_test)
-    cm = confusion_matrix(y_test, y_pred)
+    return model, X.columns, le
 
-    return model, X.columns, le, cm
-
-model, feature_names, le, cm = load_and_train()
+model, feature_names, le = load_and_train()
 
 # Dynamic inputs
 user_input = {}
@@ -50,10 +44,3 @@ if st.button("Predict Stock Index"):
     prediction = model.predict(input_df)[0]
     predicted_label = le.inverse_transform([prediction])[0]
     st.success(f"Predicted Stock Index: {predicted_label}")
-
-# Show confusion matrix
-st.subheader("Confusion Matrix")
-fig, ax = plt.subplots()
-disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=le.classes_)
-disp.plot(ax=ax)
-st.pyplot(fig)
