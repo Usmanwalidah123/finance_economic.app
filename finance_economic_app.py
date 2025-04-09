@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 
-st.title("\ud83d\udcca Stock Index Classifier")
+st.title("Stock Index Classifier")
 st.markdown("Enter financial indicators to predict the stock index (e.g. S&P500, Nasdaq, etc.)")
 
 @st.cache_data
@@ -49,10 +49,10 @@ input_df = pd.DataFrame([user_input])
 if st.button("Predict Stock Index"):
     prediction = model.predict(input_df)[0]
     predicted_label = le.inverse_transform([prediction])[0]
-    st.success(f"\ud83c\udf1f Predicted Stock Index: **{predicted_label}**")
+    st.success(f"Predicted Stock Index: {predicted_label}")
 
 # Show confusion matrix
-st.subheader("\ud83d\udcc9 Confusion Matrix")
+st.subheader("Confusion Matrix")
 fig, ax = plt.subplots()
 disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=le.classes_)
 disp.plot(ax=ax)
